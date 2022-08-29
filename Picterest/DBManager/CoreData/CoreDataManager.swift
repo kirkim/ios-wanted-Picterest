@@ -11,13 +11,8 @@ import Foundation
 class CoreDataManager {
     private enum NameSpace {
         static let persistentContainerName = "Model"
-        static let imageInfoEntityName = "ImageCoreInfo"
-        static let idKey = "id"
-        static let messageKey = "message"
-        static let aspectRatioKey = "aspectRatio"
-        static let imageURLKey = "imageURL"
-        static let imageFileLocation = "imageFileLocation"
     }
+    
     static var shared: CoreDataManager = CoreDataManager()
     
     lazy private var persistentContainer: NSPersistentContainer = {
@@ -34,24 +29,31 @@ class CoreDataManager {
         return persistentContainer.viewContext
     }
     
-    private var imageInfoEntity: NSEntityDescription? {
-        return  NSEntityDescription.entity(forEntityName: NameSpace.imageInfoEntityName, in: context)
-    }
-    
-    func saveImageInfo(_ info: CoreDataInfo) -> Bool {
-        if let entity = imageInfoEntity {
-            let managedObject = NSManagedObject(entity: entity, insertInto: context)
-            managedObject.setValue(info.id, forKey: NameSpace.idKey)
-            managedObject.setValue(info.message, forKey: NameSpace.messageKey)
-            managedObject.setValue(info.aspectRatio, forKey: NameSpace.aspectRatioKey)
-            managedObject.setValue(info.imageURL, forKey: NameSpace.imageURLKey)
-            managedObject.setValue(info.imageFileLocation, forKey: NameSpace.imageFileLocation)
-            return saveToContext()
+    private var imageInfos = [ImageCoreInfo]()
+        
+    private init() {
+        let request: NSFetchRequest<ImageCoreInfo> = ImageCoreInfo.fetchRequest()
+        
+        do {
+            imageInfos = try context.fetch(request)
+        } catch {
+            print("Error loading categories \(error)")
         }
-        return false
     }
     
-    private func saveToContext() -> Bool {
+    func saveImageInfo(_ id: UUID, _ message: String, _ aspectRatio: Double, _ imageURL: String, _ imageFileLocation: String) -> Bool {
+        let newImageInfo = ImageCoreInfo(context: context)
+        newImageInfo.id = id
+        newImageInfo.message = message
+        newImageInfo.aspectRatio = aspectRatio
+        newImageInfo.imageURL = imageURL
+        newImageInfo.imageFileLocation = imageFileLocation
+        
+        imageInfos.append(newImageInfo)
+        return saveContext()
+    }
+    
+    func saveContext() -> Bool {
         do {
             try context.save()
             return true
@@ -61,27 +63,9 @@ class CoreDataManager {
         }
     }
     
-    func getImageInfos(completion: @escaping ([CoreDataInfo]) -> ()) {
-        DispatchQueue.global().async { [weak self] in
-            guard let self = self else { return }
-            var infos: [CoreDataInfo] = []
-            let readResults = self.readImageInfos()
-            for result in readResults {
-                guard let id = result.id,
-                      let message = result.message,
-                      let imageURL = result.imageURL,
-                      let imageFileLocation = result.imageFileLocation else { continue }
-                let info = CoreDataInfo(id: id, message: message, aspectRatio: result.aspectRatio, imageURL: imageURL, imageFileLocation: imageFileLocation)
-                infos.append(info)
-            }
-            completion(infos)
-        }
-    }
-    
-    func containImage(imageURL: String) -> Bool {
-        let readInfos = self.readImageInfos()
+    func isContainImage(imageURL: String) -> Bool {
         var isContainImage = false
-        for info in readInfos {
+        for info in imageInfos {
             if info.imageURL == imageURL {
                 isContainImage = true
                 break
@@ -91,32 +75,24 @@ class CoreDataManager {
     }
     
     func readImageInfos() -> [ImageCoreInfo] {
-        do {
-            let request = ImageCoreInfo.fetchRequest()
-            let results = try context.fetch(request)
-            return results
-        } catch {
-            print(error)
-        }
-        return []
+        return imageInfos
     }
     
     func removeAllImageInfos() -> Bool {
-        let readInfos = readImageInfos()
-        for info in readInfos {
+        for info in imageInfos {
             context.delete(info)
         }
-        return saveToContext() && readInfos.isEmpty
+        imageInfos.removeAll()
+        return saveContext() && imageInfos.isEmpty
     }
     
     func removeImageInfo(at id: UUID) throws -> String {
-        let readInfos = readImageInfos()
         var result: String?
-        for info in readInfos {
+        for info in imageInfos {
             if (info.id == id) {
                 guard let imageFileLocation = info.imageFileLocation else { break }
                 context.delete(info)
-                if saveToContext() {
+                if saveContext() {
                     result = imageFileLocation
                     break
                 } else {

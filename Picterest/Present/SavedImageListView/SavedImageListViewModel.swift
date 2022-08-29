@@ -7,23 +7,20 @@
 
 import UIKit
 
-//TODO: delegate 만들어서 구현해보기
 final class SavedImageListViewModel {
     
-    private var cellDatas: [CoreDataInfo] = []
+    private var cellDatas: [ImageCoreInfo] = []
     var totalCellCount: Int {
         return cellDatas.count
     }
     
-    func cellData(_ row: Int) -> CoreDataInfo? {
+    func cellData(_ row: Int) -> ImageCoreInfo? {
         return cellDatas[safe: row]
     }
 
     func updateData(completion: @escaping () -> ()) {
-        CoreDataManager.shared.getImageInfos { [weak self] infos in
-            self?.cellDatas = infos
-            completion()
-        }
+        self.cellDatas = CoreDataManager.shared.readImageInfos()
+        completion()
     }
     
     func cellSize(_ row: Int) -> CGSize {

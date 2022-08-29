@@ -30,8 +30,6 @@
 		FE56A66E288ECC3400EBD539 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE56A66D288ECC3400EBD539 /* ImageCacheManager.swift */; };
 		FE56A671288ECD3000EBD539 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE56A670288ECD3000EBD539 /* UIImageView+Extension.swift */; };
 		FE56A673288ED11100EBD539 /* Collection+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE56A672288ED11100EBD539 /* Collection+Extension.swift */; };
-		FE6E3DA528935636001F8E92 /* ImageCoreInfo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6E3DA328935636001F8E92 /* ImageCoreInfo+CoreDataClass.swift */; };
-		FE6E3DA628935636001F8E92 /* ImageCoreInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6E3DA428935636001F8E92 /* ImageCoreInfo+CoreDataProperties.swift */; };
 		FE6E3DA828935B40001F8E92 /* SavedImageListCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6E3DA728935B40001F8E92 /* SavedImageListCellDelegate.swift */; };
 		FE6E3DAB28935F7B001F8E92 /* CheckRemoveAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6E3DAA28935F7B001F8E92 /* CheckRemoveAlertViewController.swift */; };
 		FE6E3DAD2893610C001F8E92 /* CheckRemoveAlertViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6E3DAC2893610C001F8E92 /* CheckRemoveAlertViewDelegate.swift */; };
@@ -75,8 +73,6 @@
 		FE56A66D288ECC3400EBD539 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		FE56A670288ECD3000EBD539 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		FE56A672288ED11100EBD539 /* Collection+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Extension.swift"; sourceTree = "<group>"; };
-		FE6E3DA328935636001F8E92 /* ImageCoreInfo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageCoreInfo+CoreDataClass.swift"; sourceTree = "<group>"; };
-		FE6E3DA428935636001F8E92 /* ImageCoreInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageCoreInfo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		FE6E3DA728935B40001F8E92 /* SavedImageListCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedImageListCellDelegate.swift; sourceTree = "<group>"; };
 		FE6E3DAA28935F7B001F8E92 /* CheckRemoveAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckRemoveAlertViewController.swift; sourceTree = "<group>"; };
 		FE6E3DAC2893610C001F8E92 /* CheckRemoveAlertViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckRemoveAlertViewDelegate.swift; sourceTree = "<group>"; };
@@ -303,8 +299,6 @@
 		FEFA21FB289216A300D485C1 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				FE6E3DA328935636001F8E92 /* ImageCoreInfo+CoreDataClass.swift */,
-				FE6E3DA428935636001F8E92 /* ImageCoreInfo+CoreDataProperties.swift */,
 				FE6FC6B52891931900C7F358 /* CoreDataManager.swift */,
 			);
 			path = CoreData;
@@ -432,7 +426,6 @@
 				FE39D25D2894EBA7009B0CD4 /* FooterStyle.swift in Sources */,
 				FE6E3DAD2893610C001F8E92 /* CheckRemoveAlertViewDelegate.swift in Sources */,
 				FE71B1F128922698001D000D /* DBManagerError.swift in Sources */,
-				FE6E3DA528935636001F8E92 /* ImageCoreInfo+CoreDataClass.swift in Sources */,
 				DE15E65C28604278003DD2F5 /* AppDelegate.swift in Sources */,
 				FE6E3DAB28935F7B001F8E92 /* CheckRemoveAlertViewController.swift in Sources */,
 				FE6E3DA828935B40001F8E92 /* SavedImageListCellDelegate.swift in Sources */,
@@ -442,7 +435,6 @@
 				FE24EB77288E48B500A4527C /* ImageInfo.swift in Sources */,
 				FE24EB7F288E6CE600A4527C /* ImageListViewController.swift in Sources */,
 				FEB73B322890038F00E165EC /* AddCellButtonFooterView.swift in Sources */,
-				FE6E3DA628935636001F8E92 /* ImageCoreInfo+CoreDataProperties.swift in Sources */,
 				FE56A671288ECD3000EBD539 /* UIImageView+Extension.swift in Sources */,
 				FE56A673288ED11100EBD539 /* Collection+Extension.swift in Sources */,
 				FE24EB72288E3C0000A4527C /* NetworkManger.swift in Sources */,

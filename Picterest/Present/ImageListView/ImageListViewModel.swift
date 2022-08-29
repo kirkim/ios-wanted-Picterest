@@ -38,7 +38,7 @@ final class ImageListViewModel {
             guard let self = self else { return }
             for i in 0..<self.cellDatas.count {
                 guard let cell = self.cellDatas[safe: i] else { return }
-                self.cellDatas[i].isSaved = CoreDataManager.shared.containImage(imageURL: cell.thumbnailURL)
+                self.cellDatas[i].isSaved = CoreDataManager.shared.isContainImage(imageURL: cell.thumbnailURL)
             }
             completion()
         }
@@ -55,7 +55,7 @@ final class ImageListViewModel {
             switch result {
             case .success(let infos):
                 self?.cellDatas = infos.map({ info in
-                    let isSaved:Bool = CoreDataManager.shared.containImage(imageURL: info.imageURL.thumbnail)
+                    let isSaved:Bool = CoreDataManager.shared.isContainImage(imageURL: info.imageURL.thumbnail)
                     let aspactRatio = CGFloat(info.height) / CGFloat(info.width)
                     return CellData(thumbnailURL: info.imageURL.thumbnail, isSaved: isSaved, id: UUID(), aspectRatio: aspactRatio)
                 })
@@ -73,7 +73,7 @@ final class ImageListViewModel {
             switch result {
             case .success(let infos):
                 self?.cellDatas += infos.map({ info in
-                    let isSaved:Bool = CoreDataManager.shared.containImage(imageURL: info.imageURL.thumbnail)
+                    let isSaved:Bool = CoreDataManager.shared.isContainImage(imageURL: info.imageURL.thumbnail)
                     let aspactRatio = CGFloat(info.height) / CGFloat(info.width)
                     return CellData(thumbnailURL: info.imageURL.thumbnail, isSaved: isSaved, id: UUID(), aspectRatio: aspactRatio)
                 })
@@ -93,12 +93,12 @@ final class ImageListViewModel {
         }
         let imageURL = cellData.thumbnailURL
         let id = cellData.id
+        let aspectRatio = cellData.aspectRatio
         ImageFileManager.shared.saveImageByURL(imageURL: imageURL, id: id) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let location):
-                let aspectRatio = cellData.aspectRatio
-                let succeedSaveImageInfo = CoreDataManager.shared.saveImageInfo(CoreDataInfo(id: id, message: message, aspectRatio: aspectRatio, imageURL: imageURL, imageFileLocation: location))
+                let succeedSaveImageInfo = CoreDataManager.shared.saveImageInfo(id, message, aspectRatio, imageURL, location)
                 self.cellDatas[row].toggleSavedState()
                 completion(succeedSaveImageInfo ? .success(Void()) : .failure(.failToSaveImageInfo))
             case .failure(let error):
@@ -107,3 +107,4 @@ final class ImageListViewModel {
         }
     }
 }
+

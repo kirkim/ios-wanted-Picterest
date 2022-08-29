@@ -69,13 +69,14 @@ final class SavedImageListCell: UICollectionViewCell, ReuseIdentifying {
         id = nil
     }
     
-    func configure(data: CoreDataInfo?) {
-        guard let data = data else {
+    func configure(data: ImageCoreInfo?) {
+        guard let data = data,
+        let imageURL = data.imageURL else {
             return
         }
         id = data.id
         titleLabel.text = data.message
-        imageView.load(urlString: data.imageURL)
+        imageView.load(urlString: imageURL)
     }
 
     private func addLongTappedGesture() {
